@@ -20,16 +20,14 @@ print("___________")
 
 //MARK: example2
 let pub2 = ["5", "59", "38", "a", "4"].publisher
-var divider = 1.0
-pub2.map { Int($0) }
-    .filter { $0 != nil }
-    .reduce(0) { x, y in
-        divider += 1
-        return x + y!
+pub2.compactMap { Int($0) }
+    .collect()
+    .map {
+        Double($0.reduce(0, +)) / Double($0.count)
     }
     .sink {
         print ($0)
     } receiveValue: { value in
-        print(Double(value)/divider)
+        print(value)
     }
     .store(in: &cancallebles)
